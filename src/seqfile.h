@@ -8,6 +8,7 @@ namespace garden {
 
 class Seqfile {
 public:
+    // 写seqfile
     static bool write_pair(const std::string& key, const std::string& value, std::FILE* stream) {
         // 一组数据：| k_len | key | v_len | value |
         // 数字全部转小端，统一读写方式。字符串作为字节流不需要转换，以原bytes输出。
@@ -39,6 +40,7 @@ public:
         return true;
     }
 
+    // 读seqfile
     static bool read_pair(std::string& key, std::string& value, std::FILE* stream) {
         uint32_t k_len = 0;
         std::size_t read_size = std::fread(reinterpret_cast<char*>(&k_len), sizeof(uint32_t), 1, stream);
@@ -72,6 +74,7 @@ public:
         return true;
     }
 
+    // 判断是本机是否是大端
     static bool is_big_endian() {
         union {
             uint32_t i;
@@ -81,6 +84,7 @@ public:
         return test.c[0] == 1;
     }
 
+    // 大端转小端 / 小端转大端
     static uint32_t to_little_endian(uint32_t i) {
         static bool big_endian = is_big_endian();
         if (big_endian) {
