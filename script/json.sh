@@ -25,3 +25,7 @@ ${HADOOP_BIN} ustreaming \
     -reducer "NONE" \
     -mapinstream binary \
     -mapoutstream text
+
+# 把mapper的数据汇用reducer总到一个文件
+-jobconf mapred.reduce.tasks=1
+-reducer "cat"
